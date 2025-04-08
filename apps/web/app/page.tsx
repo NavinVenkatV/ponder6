@@ -1,30 +1,37 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios"
-
+import SideBar from "./component/SideBar";
 export default function Home() {
-  const [ prompts, setPrompt ] = useState("")
-  const [ ans, setAns ] = useState("empty")
-  const submitHandler = async ()=>{
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-    const response = await axios.post('/gemini', {
-      prompt : prompts
-    })
-    console.log(response)
-    setAns(response.data.message)
-  }
+  const [chats, setChat] = useState([{}])
+
+  useEffect(() => {
+    const prevChat = async () => {
+      try {
+        const prevChat = await axios.get('/prevChat');
+        console.log(prevChat.data.chats);
+        setChat(prevChat?.data?.chats);
+      } catch (e) {
+        console.log("Error fetching past chats ", e)
+      }
+    }
+    prevChat();
+  }, [])
+
   return (
-    <div className="w-screen h-screen flex flex-col justify-center bg-black text-white ">
-      <h1>Enter the prompts</h1>
-      <input
-      className="bg-blue-950 focus:outline-none"
-      onChange={e => setPrompt(e.target.value)}
-       type="text" />
-      <button
-      onClick={submitHandler}
-      className="cursor-pointer bg-red-950"
-      >Submit</button>
-      <div>{ans}</div>
+    <div className="w-full h-full flex justify-between bg-white text-white relative p-2 overflow-hidden rounded-xl">
+      <div>
+        <SideBar />
+      </div>
+      <div className="bg-lime-950 w-[500px] h-screen rounded-xl p-3 overflow-y-auto">
+        {chats.map((chat, index) => (
+          <div key={index} className={chat?.role === "user" ? "text-white" : "text-red-500"}>
+            {chat?.message}
+          </div>
+        ))}
+      </div>
+
+
     </div>
   );
 }
