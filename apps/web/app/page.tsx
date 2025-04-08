@@ -11,10 +11,10 @@ export default function Home() {
       prompt : prompts
     })
     console.log(response)
-    setAns(response.data.msg)
+    setAns(response.data.message)
   }
   return (
-    <div className="w-full h-screen flex flex-col justify-center bg-black text-white ">
+    <div className="w-screen h-screen flex flex-col justify-center bg-black text-white ">
       <h1>Enter the prompts</h1>
       <input
       className="bg-blue-950 focus:outline-none"
