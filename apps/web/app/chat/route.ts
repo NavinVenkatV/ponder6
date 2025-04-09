@@ -163,25 +163,39 @@ export async function POST(req: NextRequest) {
                 }
             });
 
-            // const task = await prisma.task.create({
-            //     where : {
-            //         projectId : project.id
-            //     },
-            //     data : {
-            //         title : parsed.plan.title,
-            //         description : parsed.plan
-            //     }
-            // })
+            try {
+                const task = await prisma.task.create({
+                    data: {
+                        title: parsed.plan.title,
+                        totalWeeks: parsed.plan.totalWeeks.toString(),
+                        weeks: parsed.plan.weeks.map((weeks: any) => JSON.stringify(weeks)),
+                        projectId: project.id,
+                        completed: "InProgress"
+                    }
+                });
 
-            // Note: Task creation is commented out as the Task model is not available in the schema
-            // If you want to create tasks, you'll need to uncomment the Task model in your Prisma schema
+                if (!task) {
+                    throw new Error("Failed to create task");
+                }
 
-            return NextResponse.json({
-                message: "Project created successfully",
-                projectId: project.id,
-                conversation: parsed.conversation,
-                plan: parsed.plan
-            });
+                return NextResponse.json({
+                    message: "Project and task created successfully",
+                    projectId: project.id,
+                    taskId: task.id,
+                    conversation: parsed.conversation,
+                    plan: parsed.plan
+                });
+            } catch (error: any) {
+                console.error("Error creating task:", error);
+                // If task creation fails, we should clean up the project
+                await prisma.project.delete({
+                    where: { id: project.id }
+                });
+                return NextResponse.json({ 
+                    error: "Failed to create task",
+                    details: error.message 
+                }, { status: 500 });
+            }
         }
 
         // If no plan yet, just return the conversation

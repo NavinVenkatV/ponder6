@@ -29,14 +29,16 @@ export async function GET(req: NextRequest) {
 
         const existingChats = await prisma.chat.findMany({
             where: { userId: existingUser.id },
-            orderBy: { createdAt: 'asc' },
+            orderBy: { createdAt: 'desc' },
             take: 10
         });
 
-        if (existingChats.length > 0) {
+        const latestTenChats  = existingChats.reverse(); // getting last latest 10 messages
+
+        if (latestTenChats.length > 0) {
             return NextResponse.json({
                 message: "Chats retrieved successfully",
-                chats: existingChats
+                chats: latestTenChats
             });
         } else {
             return NextResponse.json({
