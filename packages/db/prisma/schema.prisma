@@ -44,18 +44,25 @@ model Project {
   title       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  user User   @relation(fields: [userId], references: [id])
+  user        User   @relation(fields: [userId], references: [id])
   userId      String
-  // tasks Task[]
+  tasks       Task[]
 }
 
-// model Task {
-//   id        String   @id @default(cuid())
-//   title     String
-//   description String?
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   project Project @relation(fields: [projectId], references: [id])
-//   projectId String
-// }
+enum progress {
+  InProgress
+  Completed
+}
+
+model Task {
+  id           String   @id @default(cuid())
+  title        String
+  totalWeeks        String
+  weeks  String[]
+  completed    progress
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  project      Project @relation(fields: [projectId], references: [id])
+  projectId    String
+}
 

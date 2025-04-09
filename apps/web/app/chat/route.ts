@@ -4,7 +4,7 @@ import { prisma } from "@repo/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/auth.config";
 
-// Check if API key is available
+// API KEY
 const ai = new GoogleGenAI({ apiKey: process.env.API_URL });
 
 export async function POST(req: NextRequest) {
@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
     }
     
     const { prompt, chatHistory } = await req.json();
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", chatHistory)
     
     try {
         if (!process.env.API_URL) {
@@ -45,11 +46,10 @@ export async function POST(req: NextRequest) {
         let conversationContext = "";
         if (chatHistory && chatHistory.length > 0) {
             conversationContext = chatHistory.map((msg: any) => 
-                `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`
+                `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.message}`
             ).join("\n\n");
         }
 
-        // Build structured prompt
         const structuredPrompt = `
         You are an expert project mentor and planner. Engage in a natural conversation about the project idea.
         
@@ -100,6 +100,7 @@ export async function POST(req: NextRequest) {
             model: "gemini-2.0-flash",
             contents: structuredPrompt
         });
+        console.log("AI RESPONSE      XXXXXXXXXXXXXXXXXX", response);
 
         console.log("Raw Gemini response:", response);
 
@@ -161,6 +162,16 @@ export async function POST(req: NextRequest) {
                     userId: user.id
                 }
             });
+
+            // const task = await prisma.task.create({
+            //     where : {
+            //         projectId : project.id
+            //     },
+            //     data : {
+            //         title : parsed.plan.title,
+            //         description : parsed.plan
+            //     }
+            // })
 
             // Note: Task creation is commented out as the Task model is not available in the schema
             // If you want to create tasks, you'll need to uncomment the Task model in your Prisma schema
