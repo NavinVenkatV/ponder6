@@ -1,9 +1,10 @@
 import React from 'react'
-import { IoRocketSharp } from "react-icons/io5";
-import { HiPaintBrush } from "react-icons/hi2";
-import { IoIosPeople } from "react-icons/io";
-import { RiShoppingBag3Fill } from "react-icons/ri";
-import { GrResources } from "react-icons/gr";
+// import { IoRocketSharp } from "react-icons/io5";
+// import { HiPaintBrush } from "react-icons/hi2";
+// import { IoIosPeople } from "react-icons/io";
+// import { RiShoppingBag3Fill } from "react-icons/ri";
+// import { GrResources } from "react-icons/gr";
+
 
 import Button from './ui/Button';
 

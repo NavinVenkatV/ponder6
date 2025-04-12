@@ -33,7 +33,7 @@ export async function GET() {
         const tasks = await prisma.task.findMany({
             where: { projectId: project.id }
         });
-        console.log(tasks)
+        
 
         if (!tasks) {
             return NextResponse.json({ message: "No tasks found" });

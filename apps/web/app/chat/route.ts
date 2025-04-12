@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
         
         User's latest message: "${prompt}"
         
-        First, provide a brief, encouraging response to the user's idea. Then, if the idea is clear enough, create a project plan.
+        First, provide a short and crisp, encouraging response to the user's idea. Then, if the idea is clear enough, create a project plan.
         If more details are needed, ask relevant questions to better understand their vision.
         
         If you have enough information to create a plan, respond in this JSON format:
