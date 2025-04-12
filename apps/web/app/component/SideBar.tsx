@@ -11,7 +11,7 @@ import Button from './ui/Button';
 
 function SideBar() {
     return (
-      <div className="h-screen bg-[#161340] rounded-xl p-5 w-[244px] flex flex-col">
+      <div className="h-[680px] bg-[#161340] rounded-xl p-5 w-[244px] flex flex-col">
         <img src="logo/ponderLogo.png" alt="" width={100} />
   
         <div className="mt-5 flex-1 flex flex-col justify-between rounded-lg ">

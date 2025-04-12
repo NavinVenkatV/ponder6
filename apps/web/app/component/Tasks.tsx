@@ -54,8 +54,8 @@ function Tasks() {
     }
 
     return (
-        <div className="h-full">
-            <div className="max-w-4xl mx-auto">
+        <div className="h-screen overflow-y-auto">
+            <div className="max-w-4xl mt-2">
                 {tasks.map((task) => (
                     <div key={task.id} className="mb-8 bg-white rounded-lg shadow-lg p-6">
                         <h2 className="text-2xl font-bold mb-4">{task.title}</h2>
