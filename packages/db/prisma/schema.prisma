@@ -57,8 +57,8 @@ enum progress {
 model Task {
   id           String   @id @default(cuid())
   title        String
-  totalWeeks        String
-  weeks  String[]
+  totalWeeks   String
+  weeks        String[]
   completed    progress
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
